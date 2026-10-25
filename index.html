@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<!-- ATMOVOC TRAIL 1.1 — investigation terrain sur smartphone (compagnon d'ATMOVOC V3.0.28). Aucune donnée réelle dans ce fichier. -->
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06101f">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TRAIL">
+<meta name="robots" content="noindex,nofollow">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>ATMOVOC TRAIL</title>
+<style>:root{--bg:#06101f;--card:#0d1a30;--line:#1f3354;--txt:#eaf3ff;--mut:#8ea6c7;--cy:#25d8ff;--g:#2ee59d;--o:#ffb84d;--r:#ff5a6e;--y:#f1d45a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--txt);font:18px/1.4 -apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+#app{max-width:560px;margin:0 auto;padding:calc(12px + env(safe-area-inset-top)) 14px 130px}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;background:rgba(6,16,31,.96);margin:calc(-12px - env(safe-area-inset-top)) -14px 12px;padding:calc(12px + env(safe-area-inset-top)) 14px 12px;border-bottom:1px solid var(--line)}
+.top .ttl{font-weight:800;font-size:19px;line-height:1.2}
+.back{background:none;border:0;color:var(--cy);font-size:38px;line-height:1;padding:0 8px 4px 0}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--cy),#7b5cff);display:grid;place-items:center;font-weight:900}
+.hero{text-align:center;padding:18px 0 10px}.heroIco{width:76px;height:76px;border-radius:18px;margin-bottom:8px}
+.logoBig{font-size:40px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,var(--cy),#9b7cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logoBig span{display:block;font-size:22px;letter-spacing:10px;color:var(--o);-webkit-text-fill-color:var(--o)}
+.tag{color:var(--mut);font-style:italic}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}
+.card.mini{font-size:15px}.card.memo{border-color:rgba(155,124,255,.6);background:rgba(155,124,255,.1)}
+.big{font-size:21px;font-weight:800;margin-bottom:6px}.huge{font-size:48px;font-weight:900;color:var(--cy)}
+.muted{color:var(--mut);font-size:15px}.center{text-align:center}
+.lab{display:block;font-size:13px;font-weight:800;letter-spacing:.6px;color:var(--mut);margin:14px 0 6px}
+.sel,.inp{width:100%;font-size:18px;padding:14px;border-radius:14px;border:1px solid var(--line);background:#071326;color:var(--txt);-webkit-appearance:none;appearance:none}
+.ta{min-height:96px;margin-top:10px}
+.btn{display:block;width:100%;margin:10px 0;padding:16px;border-radius:16px;border:1px solid var(--line);background:#12233f;color:var(--txt);font-size:18px;font-weight:800}
+.btn:active{transform:scale(.98)}.btn.pri{background:linear-gradient(90deg,#0aa5d6,#2f7bff);border:0}
+.btn.xl{padding:20px;font-size:20px;margin-top:18px}.btn.sm{padding:10px;font-size:15px}.btn.danger{color:var(--r);border-color:rgba(255,90,110,.4);background:none}
+.btn.big2{font-size:17px;padding:22px 8px}
+.row,.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cnt{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 8px;text-align:center;font-size:13px;color:var(--mut)}
+.cnt div{border-radius:14px;padding:10px 4px;background:#081428}.cnt b{display:block;font-size:34px}
+.cnt .r b{color:var(--r)}.cnt .o b{color:var(--o)}.cnt .y b{color:var(--y)}
+.kpi{display:flex;gap:8px;margin-bottom:6px}.kpi div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}.kpi b{display:block;font-size:24px;color:var(--cy)}.kpi span{font-size:12px;color:var(--mut)}
+.sec{font-size:13px;font-weight:900;letter-spacing:.8px;color:var(--mut);margin:20px 0 8px}
+.zone{margin:12px 0 18px}.zh{font-weight:900;font-size:17px;margin-bottom:8px}
+.enq{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-left:8px solid var(--y);border-radius:16px;padding:14px;margin:8px 0;color:var(--txt);font-size:16px}
+.enq.r{border-left-color:var(--r)}.enq.o{border-left-color:var(--o)}.enq.done{opacity:.72}
+.et{font-weight:900;font-size:19px}.em{color:var(--mut);font-size:14px;margin:4px 0}.es{font-weight:800;color:var(--cy)}
+.es.g{color:var(--g)}.es.o{color:var(--o)}.es.r{color:var(--r)}.es.n{color:var(--mut)}
+.dock{position:fixed;left:0;right:0;bottom:0;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(6,16,31,.97);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:560px;margin:0 auto}
+.dock .btn{margin:0;font-size:15px;padding:16px 6px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:12px}
+.steps button{background:#0b1830;border:1px solid var(--line);color:var(--mut);border-radius:12px;padding:6px 0;font-weight:900;font-size:17px}
+.steps span{display:block;font-size:10px;font-weight:700}.steps .on{border-color:var(--cy);color:var(--cy)}.steps .ok{color:var(--g)}
+.zonePill{display:inline-block;background:rgba(37,216,255,.12);border:1px solid rgba(37,216,255,.4);border-radius:999px;padding:4px 12px;font-size:14px;margin-bottom:10px}
+.sig{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--y);border-radius:14px;padding:12px;margin:8px 0;font-size:16px}
+.sig.r{border-left-color:var(--r)}.sig.o{border-left-color:var(--o)}.sm2{font-size:13px;color:var(--cy);font-weight:800}
+.prog{height:8px;background:#0b1830;border-radius:8px;overflow:hidden}.prog i{display:block;height:100%;background:var(--cy)}
+.q .qq{font-size:24px;font-weight:800;line-height:1.3;margin:6px 0 18px}
+.ans{display:block;width:100%;margin:10px 0;padding:20px;border-radius:16px;border:0;font-size:22px;font-weight:900;color:#06101f}
+.ans.y{background:var(--g)}.ans.n{background:var(--r)}.ans.u{background:#2a3c5c;color:var(--txt);font-size:17px}
+.hyp{position:relative;border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin:6px 0;overflow:hidden;font-size:15px}
+.hyp .hb{position:absolute;left:0;top:0;bottom:0;background:rgba(37,216,255,.18)}.hyp span{position:relative}
+.hyp.top{border-color:var(--cy);font-weight:800}.hyp.out{opacity:.4;text-decoration:line-through}.hyp em{position:relative;float:right;font-size:12px}
+.line{border-bottom:1px solid var(--line);padding:10px 2px;font-size:16px}
+.aa{display:inline-block;min-width:44px;text-align:center;border-radius:8px;padding:2px 6px;margin-right:8px;font-weight:900;font-size:13px;color:#06101f}
+.aa.y{background:var(--g)}.aa.n{background:var(--r)}.aa.u{background:#8ea6c7}
+.chk{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:8px 0;color:var(--txt);font-size:17px}
+.chk span{font-size:26px}.chk.on{border-color:var(--g);background:rgba(46,229,157,.1)}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat button{padding:16px 6px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--txt);font-size:15px;font-weight:800}
+.stat button.on.g{border-color:var(--g)}.stat button.on.o{border-color:var(--o)}.stat button.on.r{border-color:var(--r)}.stat button.on.n{border-color:var(--mut)}
+.stat button.on{background:#17305a}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.thumbs img{width:88px;height:88px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.zoom{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:60;display:flex;align-items:center;justify-content:center}.zoom img{max-width:100%;max-height:100%}
+.x{float:right;background:none;border:0;color:var(--r);font-size:18px}
+.sum div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin:6px 0;font-weight:800}
+.sum .g{color:var(--g)}.sum .o{color:var(--o)}.sum .r{color:var(--r)}.sum .n{color:var(--mut)}
+#toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);opacity:0;background:#eaf3ff;color:#06101f;padding:12px 18px;border-radius:999px;font-weight:800;transition:.25s;z-index:50;pointer-events:none;max-width:90%;text-align:center}
+#toast.on{opacity:1;transform:translateX(-50%)}
+</style></head>
+<body><div id="app"></div><div id="toast"></div>
+<script>
+/* ===================== PLAYBOOKS D'ENQUÊTE TERRAIN ===================== */
+var ZONES = [
+  { id: 'MAG', ico: '📦', lab: 'Magasin peinture & FDS' },
+  { id: 'CUI', ico: '🧪', lab: 'Cuisine peinture' },
+  { id: 'APP', ico: '🎨', lab: 'Application (cabines, robots)' },
+  { id: 'PUR', ico: '🧴', lab: 'Purges & nettoyage' },
+  { id: 'DEC', ico: '🛢️', lab: 'Déchets & solvants sales' },
+  { id: 'AIR', ico: '🔥', lab: 'Traitement d’air' },
+  { id: 'BUR', ico: '🗂️', lab: 'Bureau : données & production' }
+];
+var PB = {
+  SOLV: {
+    zone: 'PUR', title: 'Purges & nettoyage',
+    goal: 'Comprendre pourquoi la consommation de solvants de purge / nettoyage a changé, et si la récupération suit.',
+    hyp: {
+      H1: 'Changements de teinte / purges plus fréquents',
+      H2: 'Nettoyages exceptionnels (arrêt, maintenance, campagne)',
+      H3: 'Fuite, égouttures ou vanne de purge défaillante',
+      H4: 'Pratiques opérateurs hors procédure (rinçage manuel, double rinçage)',
+      H5: 'Récupération des solvants sales dégradée',
+      H6: 'Comptabilisation : unité L/kg, livraison groupée, imputation purge ↔ nettoyage'
+    },
+    q: [
+      ['Le nombre de changements de teinte a-t-il augmenté sur la période ?', { H1: 3 }, { H1: -2 }],
+      ['Y a-t-il eu des arrêts, maintenances ou campagnes de nettoyage exceptionnelles ?', { H2: 3 }, { H2: -2 }],
+      ['Le volume de solvant par purge (robots, cartouches) a-t-il été modifié ?', { H1: 1, H3: 1 }, {}],
+      ['Voyez-vous des fuites, égouttures ou vannes de purge qui restent ouvertes ?', { H3: 4 }, { H3: -2 }],
+      ['Les opérateurs nettoient-ils au solvant hors procédure (chiffons, seaux, pistolets) ?', { H4: 3 }, { H4: -1 }],
+      ['Tous les solvants sales sont-ils collectés vers la cuve de récupération ?', { H5: -2 }, { H5: 4 }],
+      ['La quantité déclarée vient-elle d’une sortie magasin / livraison plutôt que d’un comptage ?', { H6: 2 }, { H6: -1 }],
+      ['Le produit est-il saisi dans la même unité (kg ou L) que les mois précédents ?', { H6: -1 }, { H6: 4 }],
+      ['Le transfert de consommation entre « purge » et « nettoyage » est-il possible (même solvant, deux lignes) ?', { H6: 2 }, {}]
+    ],
+    checks: ['Observer 3 purges consécutives (durée, volume)', 'Lire le paramétrage purge des robots', 'Contrôler la cuve de solvants sales (niveau, collecte)', 'Vérifier les procédures de nettoyage affichées', 'Comparer bon de sortie magasin et quantité déclarée'],
+    meas: [['Changements de teinte / équipe', ''], ['Solvant par purge', 'L'], ['Niveau cuve solvants sales', '%'], ['Sortie magasin du mois', 'kg']],
+    proofs: ['Écran paramétrage purge', 'Cuve / compteur', 'Procédure affichée']
+  },
+  PROD: {
+    zone: 'APP', title: 'Consommation de produit',
+    goal: 'Vérifier si l’écart de consommation est réel (process) ou comptable (saisie, stock).',
+    hyp: {
+      H1: 'Rendement de transfert dégradé (robots, buses, électrostatique)',
+      H2: 'Épaisseurs augmentées ou retouches plus nombreuses',
+      H3: 'Mix véhicules / teintes différent',
+      H4: 'Livraison groupée ou variation de stock non lissée',
+      H5: 'Erreur de saisie (unité, double ligne, mauvais produit)',
+      H6: 'Ligne manquante ou consommation reportée sur un autre mois'
+    },
+    q: [
+      ['La consommation déclarée est-elle mesurée au point d’utilisation (compteur, pesée) ?', { H4: -2, H5: -1 }, { H4: 3 }],
+      ['Les réglages robots (débit, haute tension, trajectoires) ont-ils changé ?', { H1: 3 }, { H1: -1 }],
+      ['Les mesures d’épaisseur ou le taux de retouche ont-ils augmenté ?', { H2: 3 }, { H2: -1 }],
+      ['Le mix modèles / teintes a-t-il sensiblement changé ce mois ?', { H3: 3 }, { H3: -1 }],
+      ['Une livraison importante a-t-elle eu lieu en fin ou début de mois ?', { H4: 3 }, {}],
+      ['Le produit apparaît-il sur deux lignes du bilan (doublon possible) ?', { H5: 4 }, { H5: -1 }],
+      ['Le stock physique au magasin est-il cohérent avec le stock théorique ?', { H4: -1 }, { H4: 2, H6: 2 }]
+    ],
+    checks: ['Relever le stock physique du produit', 'Vérifier les réglages robots / applicateurs', 'Consulter les mesures d’épaisseur', 'Consulter le relevé de retouches', 'Contrôler les bons de livraison du mois'],
+    meas: [['Stock physique', 'kg'], ['Épaisseur moyenne', 'µm'], ['Taux de retouche', '%']],
+    proofs: ['Étiquette du fût', 'Écran réglages robot', 'Bon de livraison']
+  },
+  SUBST: {
+    zone: 'MAG', title: 'Produit nouveau ou disparu',
+    goal: 'Confirmer une substitution de produit ou détecter une ligne oubliée.',
+    hyp: {
+      H1: 'Substitution réelle de produit',
+      H2: 'Changement de process (nouvelle étape, nouveau fournisseur)',
+      H3: 'Ligne oubliée dans le bilan / l’import',
+      H4: 'Produit renommé (même produit, autre libellé)'
+    },
+    q: [
+      ['Le nouveau produit est-il physiquement présent au magasin / en cuisine ?', { H1: 2, H4: 1 }, { H3: 2 }],
+      ['L’ancien produit est-il encore utilisé sur le terrain ?', { H3: 3, H4: 1 }, { H1: 2 }],
+      ['Une validation de substitution (homologation, essais) existe-t-elle ?', { H1: 3 }, {}],
+      ['La référence fournisseur est-elle identique entre ancien et nouveau libellé ?', { H4: 4 }, { H4: -2 }],
+      ['Un nouveau procédé ou une nouvelle étape a-t-il démarré ?', { H2: 3 }, { H2: -1 }]
+    ],
+    checks: ['Photographier l’étiquette du nouveau produit', 'Chercher l’ancien produit au magasin', 'Récupérer la FDS du nouveau produit', 'Vérifier sa présence dans la bibliothèque produits'],
+    meas: [['% COV (FDS)', '%'], ['Extrait sec (FDS)', '%']],
+    proofs: ['Étiquette nouveau produit', 'Étiquette ancien produit', 'FDS section 9']
+  },
+  FDS: {
+    zone: 'MAG', title: 'Teneur en COV / FDS',
+    goal: 'Établir le % COV correct à partir de la FDS en vigueur et de l’étiquette réelle.',
+    hyp: {
+      H1: 'Nouvelle FDS / reformulation fournisseur',
+      H2: 'Nouvelle référence sous le même nom',
+      H3: 'Erreur de saisie du % COV dans le bilan',
+      H4: 'Bibliothèque Groupe obsolète',
+      H5: 'Ligne de regroupement (« Divers ») à teneur moyenne variable'
+    },
+    q: [
+      ['La référence sur l’étiquette du fût est-elle identique à celle de la bibliothèque ?', { H2: -2 }, { H2: 4 }],
+      ['La FDS en vigueur a-t-elle été révisée récemment ?', { H1: 3, H4: 2 }, { H1: -2 }],
+      ['Le % COV du bilan provient-il directement de la FDS (section 9) ?', { H3: -2 }, { H3: 3 }],
+      ['La ligne regroupe-t-elle plusieurs produits (« Divers », « Retouches ») ?', { H5: 4 }, { H5: -2 }],
+      ['La valeur de la bibliothèque correspond-elle à la FDS en vigueur ?', { H4: -2 }, { H4: 4 }]
+    ],
+    checks: ['Photographier l’étiquette du fût en stock', 'Récupérer la FDS en vigueur (section 9 – COV)', 'Noter la date de révision de la FDS', 'Comparer avec la valeur de la bibliothèque'],
+    meas: [['% COV selon FDS', '%'], ['Date de révision FDS', ''], ['Densité', 'kg/L']],
+    proofs: ['Étiquette du fût', 'FDS section 9']
+  },
+  OUT: {
+    zone: 'DEC', title: 'Sorties : déchets & solvants sales',
+    goal: 'Vérifier que les sorties déclarées (masse et % COV) reflètent les enlèvements réels.',
+    hyp: {
+      H1: 'Enlèvement exceptionnel (curage, vidange de cuve)',
+      H2: 'Nouvelle analyse du % COV du déchet',
+      H3: 'Enlèvement non saisi ou décalé d’un mois',
+      H4: 'Erreur d’unité ou de % COV sur le déchet',
+      H5: 'Filière de récupération modifiée (prestataire, régénération)'
+    },
+    q: [
+      ['Les bordereaux (BSD) du mois correspondent-ils aux quantités déclarées ?', { H3: -2, H4: -2 }, { H3: 3, H4: 2 }],
+      ['Un curage ou une vidange exceptionnelle a-t-il eu lieu ?', { H1: 4 }, { H1: -2 }],
+      ['Une nouvelle analyse de laboratoire du déchet a-t-elle été reçue ?', { H2: 4 }, { H2: -1 }],
+      ['Un enlèvement prévu a-t-il été reporté au mois suivant ?', { H3: 3 }, {}],
+      ['Le prestataire ou la filière (régénération, incinération) a-t-il changé ?', { H5: 4 }, { H5: -1 }]
+    ],
+    checks: ['Consulter les BSD / bordereaux du mois', 'Lire la dernière analyse labo des solvants sales', 'Relever le niveau des cuves de déchets', 'Vérifier le registre déchets'],
+    meas: [['Quantité enlevée (BSD)', 'kg'], ['% COV analyse labo', '%'], ['Niveau cuve', '%']],
+    proofs: ['Bordereau BSD', 'Rapport d’analyse', 'Cuve / zone déchets']
+  },
+  INC: {
+    zone: 'AIR', title: 'Traitement d’air / incinération',
+    goal: 'Comprendre la variation de la quantité de COV détruits.',
+    hyp: {
+      H1: 'Heures de fonctionnement de l’oxydateur modifiées',
+      H2: 'By-pass ou arrêts non tracés',
+      H3: 'Captation modifiée (débit, cabines raccordées)',
+      H4: 'Méthode de calcul changée (rendement théorique vs mesure)',
+      H5: 'Déclaration incohérente avec l’équipement réel'
+    },
+    q: [
+      ['Le compteur d’heures de l’oxydateur est-il cohérent avec le mois précédent ?', { H1: -1 }, { H1: 4 }],
+      ['Le journal mentionne-t-il des by-pass ou arrêts ?', { H2: 4 }, { H2: -1 }],
+      ['Des cabines ou zones ont-elles été raccordées / déconnectées ?', { H3: 4 }, { H3: -1 }],
+      ['La méthode de calcul du COV détruit a-t-elle changé (nouvelle mesure) ?', { H4: 4 }, { H4: -1 }],
+      ['L’équipement déclaré dans ATMOVOC correspond-il à l’installation réelle ?', { H5: -2 }, { H5: 5 }]
+    ],
+    checks: ['Relever le compteur d’heures', 'Lire la température de chambre', 'Consulter le journal des by-pass', 'Récupérer la dernière mesure de rendement'],
+    meas: [['Heures de fonctionnement', 'h'], ['Température chambre', '°C'], ['Rendement mesuré', '%']],
+    proofs: ['Supervision oxydateur', 'Journal by-pass']
+  },
+  CONSO: {
+    zone: 'CUI', title: 'Consommation vs production',
+    goal: 'Vérifier le lien entre consommations déclarées et production réelle.',
+    hyp: {
+      H1: 'Production sous-déclarée ou incomplète',
+      H2: 'Livraisons / variations de stock comptées sur le mois',
+      H3: 'Consommation réellement accrue (purges, nettoyage, retouches)',
+      H4: 'Mix modèles (surface peinte) différent'
+    },
+    q: [
+      ['La production déclarée correspond-elle au relevé de production du site ?', { H1: -2 }, { H1: 4 }],
+      ['Les consommations sont-elles des livraisons plutôt que des consommations réelles ?', { H2: 3 }, { H2: -1 }],
+      ['Les purges / nettoyages ont-ils augmenté ce mois ?', { H3: 3 }, { H3: -1 }],
+      ['De nouveaux modèles ou un mix très différent ont-ils été produits ?', { H4: 3 }, { H4: -1 }]
+    ],
+    checks: ['Comparer production déclarée et relevé MES', 'Vérifier les livraisons du mois', 'Contrôler les stocks de début / fin de mois'],
+    meas: [['Véhicules peints (relevé site)', 'véh.'], ['Stock fin de mois', 'kg']],
+    proofs: ['Relevé de production', 'État de stock']
+  },
+  DATA: {
+    zone: 'BUR', title: 'Qualité des données',
+    goal: 'Rendre le bilan publiable : identifier la donnée manquante ou erronée.',
+    hyp: {
+      H1: 'Import incomplet (onglet, mois)',
+      H2: 'Produit inconnu ou % COV absent de la bibliothèque',
+      H3: 'Surface véhicule incorrecte / nouveau modèle',
+      H4: 'Production non saisie'
+    },
+    q: [
+      ['Le fichier bilan du site est-il complet pour ce mois ?', { H1: -2 }, { H1: 4 }],
+      ['Un nouveau produit a-t-il été introduit récemment ?', { H2: 3 }, {}],
+      ['Un nouveau modèle de véhicule est-il produit ?', { H3: 3 }, { H3: -1 }],
+      ['La production du mois est-elle saisie ?', { H4: -2 }, { H4: 4 }]
+    ],
+    checks: ['Ouvrir le bilan Excel du mois avec le responsable', 'Lister les produits sans % COV', 'Vérifier la production par modèle'],
+    meas: [],
+    proofs: ['Capture du bilan']
+  },
+  RES: {
+    zone: 'BUR', title: 'Résultat g/m²',
+    goal: 'Relier l’écart de résultat aux causes terrain des autres enquêtes.',
+    hyp: {
+      H1: 'Hausse des entrants solvants (voir enquêtes purges / produits)',
+      H2: 'Baisse des sorties (déchets, solvants sales)',
+      H3: 'Baisse de l’abattement (traitement d’air)',
+      H4: 'Production / surface en baisse'
+    },
+    q: [
+      ['Les enquêtes « purges » ou « produits » ont-elles identifié une hausse réelle ?', { H1: 3 }, { H1: -1 }],
+      ['Les sorties du mois sont-elles complètes ?', { H2: -2 }, { H2: 3 }],
+      ['L’oxydateur a-t-il fonctionné normalement ?', { H3: -2 }, { H3: 3 }],
+      ['La production a-t-elle baissé fortement (arrêts, chômage) ?', { H4: 3 }, { H4: -1 }]
+    ],
+    checks: ['Faire le point avec le responsable environnement du site', 'Relier chaque cause trouvée à son poids dans le g/m²'],
+    meas: [],
+    proofs: []
+  }
+};
+var FREE_TYPES = [['⚠️', 'Anomalie'], ['💡', 'Amélioration'], ['👍', 'Bonne pratique'], ['❓', 'À analyser']];
+
+/* Pack de démonstration — SITE FICTIF, CHIFFRES INVENTÉS (aucune donnée réelle) */
+var DEMO_PACK = (function () {
+  var S = 'Site Démo';
+  function A(month, cat, sev, title, detail, verif, x) { var a = Object.assign({ site: S, month: month, cat: cat, sev: sev, title: title, detail: detail, verif: verif }, x || {}); a.sig = [S, month, cat, title].join('|'); var i = title.indexOf(' : '); a.product = a.product || (i > 0 ? title.slice(i + 3) : null); return a; }
+  var L = [
+    A('2026-03', 'PROD', 2, 'Surconsommation : Solvant de nettoyage', '4,1 t consommées (6,0 g/m²) contre 4,0 g/m² habituellement (+50 %).', 'Quantité saisie (unité L/kg, double ligne), livraison groupée, usage process anormal.', { kind: 'nettoyage', process: 'Purges et nettoyage', atelier: 'Ligne 1' }),
+    A('2026-06', 'PROD', 3, 'Surconsommation : Solvant de nettoyage', '5,2 t consommées (7,5 g/m²) contre 4,0 g/m² habituellement (+88 %).', 'Quantité saisie (unité L/kg, double ligne), livraison groupée, usage process anormal.', { kind: 'nettoyage', process: 'Purges et nettoyage', atelier: 'Ligne 1' }),
+    A('2026-06', 'PROD', 1, 'Sous-consommation : Solvant de purge', '1,8 t consommées (2,6 g/m²) contre 3,9 g/m² habituellement (-33 %).', 'Ligne manquante ou consommation reportée sur un autre mois.', { kind: 'purge', process: 'Purges et nettoyage' }),
+    A('2026-06', 'OUT', 1, 'Taux de récupération des solvants sales en baisse', '28 % des solvants de purge et de nettoyage récupérés contre 45 % habituellement.', 'Enlèvement reporté ou collecte incomplète.'),
+    A('2026-02', 'PCT', 3, '% COV modifié : Base Démo Rouge', '62 % ce mois contre 38 % en 2026-01 pour le même produit.', 'Nouvelle FDS ou correction de la bibliothèque ?', { process: 'Apprêt-Bases-Vernis' }),
+    A('2026-05', 'PCT', 2, '% COV modifié : Base Démo Rouge', '40 % ce mois contre 62 % en 2026-04 pour le même produit.', 'Nouvelle FDS ou correction de la bibliothèque ?', { process: 'Apprêt-Bases-Vernis' }),
+    A('2026-04', 'PROD', 2, 'Surconsommation : Vernis Démo 2K', '9,0 t consommées (13,0 g/m²) contre 10,0 g/m² habituellement (+30 %).', 'Quantité saisie, livraison groupée, usage process anormal.', { process: 'Apprêt-Bases-Vernis', atelier: 'Cabine vernis' }),
+    A('2026-05', 'PROD', 1, 'Nouveau produit : Diluant Démo X', 'Produit absent les mois précédents · 0,6 t consommées.', 'Substitution ou ligne oubliée ?', { process: 'Apprêt-Bases-Vernis' }),
+    A('2026-06', 'INC', 2, 'Taux d’abattement en baisse', '9 % des entrants détruits contre 15 % habituellement (-40 %).', 'Vérifier le fonctionnement et la méthode de calcul de l’oxydateur.'),
+    A('2026-06', 'RES', 2, 'Au-dessus de l’objectif', '33,0 g/m² pour un objectif de 30,0 g/m² (+10 %).', 'Prioriser les leviers chiffrés dans le plan d’action.')
+  ];
+  return { format: 'ATMOVOC_TRAIL_PACK_V1', demo: true, generatedAt: '2026-10-25T08:00:00Z', atmovoc: 'démo', last: '2026-06',
+    sites: [{ site: S, obj: 30, ytdGm2: 31.4, ytd1Gm2: 29.8 }], anomalies: L, resolved: [], levers: [],
+    history: [{ site: S, date: '2026-04-14', enquetes: [{ title: 'Purges & nettoyage', status: 'identifiee', cause: 'Grand nettoyage après arrêt de ligne de Pâques (exemple fictif)' }] }] };
+})();
+
+/* ===================== ATMOVOC TRAIL — application ===================== */
+var TRAIL_VERSION = 'TRAIL 1.1';
+var LS_STATE = 'atmovoc_trail_state_v1';
+var S = load();
+var VIEW = { name: 'home', enq: null, step: 0 };
+
+function load() { try { return Object.assign({ pack: null, packName: '', site: '', auteur: '', visits: {} }, JSON.parse(localStorage.getItem(LS_STATE) || '{}')); } catch (e) { return { pack: null, packName: '', site: '', auteur: '', visits: {} }; } }
+function save() { try { localStorage.setItem(LS_STATE, JSON.stringify(S)); } catch (e) { toast('Mémoire du téléphone pleine'); } }
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function toast(t) { var d = $('toast'); d.textContent = t; d.className = 'on'; clearTimeout(toast.t); toast.t = setTimeout(function () { d.className = ''; }, 2200); }
+function today() { return new Date().toISOString().slice(0, 10); }
+function mlab(m) { var M = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']; var p = String(m || '').split('-'); return p.length === 2 ? M[+p[1] - 1] + ' ' + p[0] : m; }
+function zoneOf(id) { return ZONES.filter(function (z) { return z.id === id; })[0] || ZONES[ZONES.length - 1]; }
+function vibrate() { try { navigator.vibrate && navigator.vibrate(12); } catch (e) {} }
+
+/* ---------- 1. Du signal ATMOVOC à l'enquête terrain ---------- */
+var RX_SOLV = /purge|nettoy|solvant|diluant|r[ée]cup[ée]ration/i;
+function playbookOf(a) {
+  var t = a.title || '', p = a.product || '';
+  if (a.cat === 'DATA') return 'DATA';
+  if (a.cat === 'RES') return 'RES';
+  if (a.cat === 'INC') return 'INC';
+  if (a.cat === 'PCT') return 'FDS';
+  if (a.cat === 'OUT') return /r[ée]cup[ée]ration/i.test(t) ? 'SOLV' : 'OUT';
+  if (a.cat === 'CONSO') return /solvant/i.test(t) && !/d[ée]connect/i.test(t) ? 'SOLV' : 'CONSO';
+  if (a.cat === 'PROD') {
+    if (/^Nouveau produit|^Produit disparu/i.test(t)) return 'SUBST';
+    if (a.kind === 'purge' || a.kind === 'nettoyage' || RX_SOLV.test(p)) return 'SOLV';
+    return 'PROD';
+  }
+  if (RX_SOLV.test(t)) return 'SOLV';
+  return 'DATA';
+}
+function buildEnquetes(site) {
+  var P = S.pack; if (!P) return [];
+  var list = (P.anomalies || []).filter(function (a) { return a.site === site; }), map = {};
+  list.forEach(function (a) {
+    var pb = playbookOf(a), key = pb === 'SOLV' || pb === 'RES' || pb === 'DATA' || pb === 'INC' || pb === 'CONSO' ? pb : pb + '|' + (a.product || a.title);
+    var e = map[key] || (map[key] = { id: key, pb: pb, product: (pb === 'PROD' || pb === 'FDS' || pb === 'SUBST') ? a.product : null, sev: 0, anomalies: [], months: {}, atelier: null, process: null });
+    e.anomalies.push(a); e.sev = Math.max(e.sev, a.sev || 1); e.months[a.month] = 1;
+    if (a.atelier && !e.atelier) e.atelier = a.atelier; if (a.process && !e.process) e.process = a.process;
+  });
+  return Object.keys(map).map(function (k) {
+    var e = map[k], pb = PB[e.pb]; e.months = Object.keys(e.months).sort();
+    e.title = pb.title + (e.product ? ' — ' + e.product : '');
+    e.zone = pb.zone;
+    e.recurrent = e.months.length >= 3;
+    e.score = e.sev * 10 + e.anomalies.length + (e.recurrent ? 5 : 0);
+    return e;
+  }).sort(function (a, b) { return b.score - a.score; });
+}
+function visit() {
+  var s = S.site; if (!s) return null;
+  var v = S.visits[s];
+  if (!v) v = S.visits[s] = { id: s + '_' + Date.now(), site: s, date: today(), enq: {}, obs: [] };
+  return v;
+}
+function enqState(id) { var v = visit(); return v.enq[id] || (v.enq[id] = { answers: {}, checks: {}, meas: {}, notes: [], photos: [], status: '', cause: '', action: '', owner: '', due: '' }); }
+function hypRank(e) {
+  var pb = PB[e.pb], st = enqState(e.id), sc = {};
+  Object.keys(pb.hyp).forEach(function (h) { sc[h] = 0; });
+  pb.q.forEach(function (q, i) { var a = st.answers[i]; var w = a === 'y' ? q[1] : a === 'n' ? q[2] : null; if (w) Object.keys(w).forEach(function (h) { sc[h] += w[h]; }); });
+  return Object.keys(sc).map(function (h) { return { h: h, label: pb.hyp[h], s: sc[h] }; }).sort(function (a, b) { return b.s - a.s; });
+}
+function sevCol(s) { return s >= 3 ? 'r' : s === 2 ? 'o' : 'y'; }
+var STATUS = { identifiee: ['✅', 'Cause identifiée', 'g'], probable: ['🟠', 'Cause probable', 'o'], poursuivre: ['🔴', 'À poursuivre', 'r'], faux: ['⚪', 'Faux signal', 'n'] };
+
+/* ---------- 2. Écrans ---------- */
+function go(name, enq, step) { VIEW = { name: name, enq: enq || null, step: step || 0 }; render(); window.scrollTo(0, 0); }
+function render() {
+  var h = '';
+  if (VIEW.name === 'home') h = vHome();
+  else if (VIEW.name === 'site') h = vSite();
+  else if (VIEW.name === 'enq') h = vEnq();
+  else if (VIEW.name === 'obs') h = vObs();
+  else if (VIEW.name === 'end') h = vEnd();
+  else if (VIEW.name === 'hist') h = vHist();
+  $('app').innerHTML = h;
+  if (VIEW.name === 'enq') loadThumbs();
+}
+function topbar(title, back) {
+  return '<div class="top">' + (back ? '<button class="back" onclick="' + back + '">‹</button>' : '<div class="logo">A</div>') + '<div class="ttl">' + title + '</div></div>';
+}
+function vHome() {
+  var P = S.pack, h = '<div class="hero"><img class="heroIco" src="icon-180.png" alt=""><div class="logoBig">ATMOVOC<span>TRAIL</span></div><div class="tag">Du signal à la cause terrain</div></div>';
+  if (!P) {
+    h += '<div class="card"><div class="big">Charger le pack d’enquête</div><p class="muted">Sur le PC : ATMOVOC › VOC Intelligence › <b>📱 Pack TRAIL</b>, puis enregistrer le fichier dans OneDrive. Ici : <b>Ouvrir le pack</b> › Parcourir › OneDrive.</p>' +
+      '<button class="btn pri" onclick="pickPack()">📂 OUVRIR LE PACK</button><button class="btn" onclick="loadDemo()">▶ ESSAYER AVEC LA DÉMO</button></div>' +
+      '<p class="muted center">Les données restent sur ce téléphone. Rien n’est envoyé sur Internet.</p>';
+    return h;
+  }
+  var sites = (P.sites || []).map(function (s) { return s.site; });
+  (P.anomalies || []).forEach(function (a) { if (sites.indexOf(a.site) < 0) sites.push(a.site); });
+  var opts = '<option value="">— Choisir le site —</option>' + sites.map(function (s) { var n = (P.anomalies || []).filter(function (a) { return a.site === s; }).length; return '<option value="' + esc(s) + '"' + (s === S.site ? ' selected' : '') + '>' + esc(s) + (n ? '  (' + n + ' écarts)' : '') + '</option>'; }).join('');
+  h += '<div class="card"><label class="lab">SITE VISITÉ</label><select class="sel" onchange="S.site=this.value;save();render()">' + opts + '</select>';
+  if (S.site) {
+    var E = buildEnquetes(S.site), c = { r: 0, o: 0, y: 0 }; E.forEach(function (e) { c[sevCol(e.sev)]++; });
+    var v = S.visits[S.site], done = v ? Object.keys(v.enq).filter(function (k) { return v.enq[k].status; }).length : 0;
+    h += '<div class="cnt"><div class="r"><b>' + c.r + '</b>prioritaires</div><div class="o"><b>' + c.o + '</b>vérifications</div><div class="y"><b>' + c.y + '</b>à surveiller</div></div>' +
+      (v ? '<div class="muted center">Visite du ' + esc(v.date) + ' en cours · ' + done + '/' + E.length + ' enquête(s) conclue(s)</div>' : '') +
+      '<button class="btn pri xl" onclick="go(\'site\')">▶ ' + (v ? 'CONTINUER MA VISITE' : 'DÉMARRER MA VISITE') + '</button>';
+  }
+  h += '</div><div class="card mini"><div class="muted">Pack : ' + esc(S.packName || '') + '<br>Généré le ' + esc(String(P.generatedAt || '').slice(0, 10)) + ' · ATMOVOC ' + esc(P.atmovoc || '') + (P.last ? ' · données jusqu’à ' + mlab(P.last) : '') + '</div>' +
+    '<div class="row"><button class="btn sm" onclick="pickPack()">🔄 Autre pack</button><button class="btn sm" onclick="go(\'hist\')">📋 Historique</button></div>' +
+    '<label class="lab">ENQUÊTEUR</label><input class="inp" value="' + esc(S.auteur) + '" placeholder="Nom" onchange="S.auteur=this.value;save()"></div>' +
+    '<p class="muted center">' + TRAIL_VERSION + '</p>';
+  return h;
+}
+function vSite() {
+  var E = buildEnquetes(S.site), v = visit(); save();
+  var siteInfo = (S.pack.sites || []).filter(function (s) { return s.site === S.site; })[0];
+  var h = topbar(esc(S.site), "go('home')");
+  if (siteInfo && siteInfo.ytdGm2 != null) h += '<div class="kpi"><div><b>' + fmt(siteInfo.ytdGm2) + '</b><span>g/m² YTD</span></div>' + (siteInfo.obj ? '<div><b>' + fmt(siteInfo.obj) + '</b><span>objectif</span></div>' : '') + (siteInfo.ytd1Gm2 ? '<div><b>' + fmt(siteInfo.ytd1Gm2) + '</b><span>YTD N-1</span></div>' : '') + '</div>';
+  if (!E.length) h += '<div class="card center big">🟢 Aucun écart ouvert pour ce site.<p class="muted">Vous pouvez quand même consigner vos observations.</p></div>';
+  else h += '<div class="sec">📍 PARCOURS DE VISITE</div>';
+  ZONES.forEach(function (z) {
+    var L = E.filter(function (e) { return e.zone === z.id; }); if (!L.length) return;
+    h += '<div class="zone"><div class="zh">' + z.ico + ' ' + esc(z.lab) + '</div>';
+    L.forEach(function (e) {
+      var st = (v.enq[e.id] || {}).status, s = STATUS[st];
+      h += '<button class="enq ' + sevCol(e.sev) + (st ? ' done' : '') + '" onclick="go(\'enq\',\'' + esc(e.id).replace(/'/g, "\\'") + '\')">' +
+        '<div class="et">' + esc(e.title) + '</div><div class="em">' + e.anomalies.length + ' signal(aux) · ' + e.months.map(mlab).join(', ') + (e.recurrent ? ' · <b>récurrent</b>' : '') + (e.atelier ? ' · ' + esc(e.atelier) : '') + '</div>' +
+        (s ? '<div class="es ' + s[2] + '">' + s[0] + ' ' + s[1] + '</div>' : '<div class="es">▶ Enquêter</div>') + '</button>';
+    });
+    h += '</div>';
+  });
+  h += '<div class="dock"><button class="btn" onclick="go(\'obs\')">➕ JE VOIS QUELQUE CHOSE</button><button class="btn pri" onclick="go(\'end\')">🏁 FIN DE VISITE</button></div>';
+  return h;
+}
+function fmt(n) { return n == null || !isFinite(n) ? '—' : Number(n).toLocaleString('fr-FR', { maximumFractionDigits: 1 }); }
+function findEnq(id) { return buildEnquetes(S.site).filter(function (e) { return e.id === id; })[0]; }
+var STEPS = ['Signal', 'Questions', 'Terrain', 'Preuves', 'Conclusion'];
+function vEnq() {
+  var e = findEnq(VIEW.enq); if (!e) { VIEW.name = 'site'; return vSite(); }
+  var pb = PB[e.pb], st = enqState(e.id), k = VIEW.step, eid = esc(e.id).replace(/'/g, "\\'");
+  var h = topbar(esc(e.title), "go('site')");
+  h += '<div class="steps">' + STEPS.map(function (s, i) { return '<button class="' + (i === k ? 'on' : '') + (i < k ? ' ok' : '') + '" onclick="go(\'enq\',\'' + eid + '\',' + i + ')">' + (i + 1) + '<span>' + s + '</span></button>'; }).join('') + '</div>';
+  if (k === 0) {
+    h += '<div class="card"><div class="zonePill">' + zoneOf(e.zone).ico + ' ' + esc(zoneOf(e.zone).lab) + (e.process ? ' · ' + esc(e.process) : '') + (e.atelier ? ' · ' + esc(e.atelier) : '') + '</div>' +
+      '<div class="big">Pourquoi ATMOVOC vous envoie ici</div><p>' + esc(pb.goal) + '</p></div>';
+    e.anomalies.slice().sort(function (a, b) { return a.month < b.month ? -1 : 1; }).forEach(function (a) {
+      h += '<div class="sig ' + sevCol(a.sev) + '"><div class="sm2">' + mlab(a.month) + '</div><b>' + esc(a.title) + '</b><div>' + esc(a.detail) + '</div>' + (a.verif ? '<div class="muted">Piste ATMOVOC : ' + esc(a.verif) + '</div>' : '') + '</div>';
+    });
+    var hist = (S.pack.history || []).filter(function (r) { return r.site === S.site; }), prevC = [];
+    hist.forEach(function (r) { (r.enquetes || []).forEach(function (x) { if (x.cause && x.title && x.title.indexOf(pb.title) === 0) prevC.push(r.date + ' : ' + x.cause); }); });
+    if (prevC.length) h += '<div class="card memo"><b>🧠 Déjà vu sur ce site</b>' + prevC.map(function (c) { return '<div>' + esc(c) + '</div>'; }).join('') + '</div>';
+    h += '<button class="btn pri xl" onclick="go(\'enq\',\'' + eid + '\',1)">COMMENCER L’ENQUÊTE ›</button>';
+  } else if (k === 1) {
+    var qi = -1; pb.q.some(function (q, i) { if (!st.answers[i]) { qi = i; return true; } return false; });
+    var n = Object.keys(st.answers).length;
+    h += '<div class="prog"><i style="width:' + Math.round(n / pb.q.length * 100) + '%"></i></div><div class="muted center">' + n + ' / ' + pb.q.length + ' questions</div>';
+    if (qi >= 0) {
+      h += '<div class="card q"><div class="qq">' + esc(pb.q[qi][0]) + '</div>' +
+        '<button class="ans y" onclick="answer(\'' + eid + '\',' + qi + ',\'y\')">OUI</button><button class="ans n" onclick="answer(\'' + eid + '\',' + qi + ',\'n\')">NON</button><button class="ans u" onclick="answer(\'' + eid + '\',' + qi + ',\'u\')">JE NE SAIS PAS</button></div>';
+    } else h += '<div class="card center big">✔ Toutes les questions sont renseignées</div>';
+    h += hypBlock(e);
+    if (n) h += '<div class="sec">RÉPONSES (touchez pour modifier)</div>' + pb.q.map(function (q, i) { var a = st.answers[i]; if (!a) return ''; return '<div class="line" onclick="answer(\'' + eid + '\',' + i + ',null)"><span class="aa ' + a + '">' + (a === 'y' ? 'OUI' : a === 'n' ? 'NON' : '?') + '</span>' + esc(q[0]) + ' <span class="muted">✎</span></div>'; }).join('');
+    h += '<button class="btn pri xl" onclick="go(\'enq\',\'' + eid + '\',2)">VÉRIFICATIONS TERRAIN ›</button>';
+  } else if (k === 2) {
+    h += '<div class="sec">À VÉRIFIER SUR PLACE</div>' + pb.checks.map(function (c, i) { var on = st.checks[i]; return '<button class="chk' + (on ? ' on' : '') + '" onclick="toggleCheck(\'' + eid + '\',' + i + ')"><span>' + (on ? '☑' : '☐') + '</span>' + esc(c) + '</button>'; }).join('');
+    if (pb.meas.length) h += '<div class="sec">RELEVÉS</div>' + pb.meas.map(function (m, i) { return '<label class="lab">' + esc(m[0]) + (m[1] ? ' (' + esc(m[1]) + ')' : '') + '</label><input class="inp" inputmode="' + (m[1] ? 'decimal' : 'text') + '" value="' + esc(st.meas[i] || '') + '" onchange="setMeas(\'' + eid + '\',' + i + ',this.value)">'; }).join('');
+    h += '<button class="btn pri xl" onclick="go(\'enq\',\'' + eid + '\',3)">PREUVES & OBSERVATIONS ›</button>';
+  } else if (k === 3) {
+    if (pb.proofs.length) h += '<div class="muted">Preuves utiles : ' + pb.proofs.map(esc).join(' · ') + '</div>';
+    h += '<div class="grid2"><button class="btn big2" onclick="takePhoto(\'' + eid + '\')">📷<br>PHOTO</button><button class="btn big2" onclick="dictate(\'note\')">🎤<br>DICTER</button></div>' +
+      '<textarea id="note" class="inp ta" placeholder="Ce que j’observe… (micro du clavier pour dicter)"></textarea><button class="btn" onclick="addNote(\'' + eid + '\')">✏️ AJOUTER L’OBSERVATION</button>' +
+      '<div id="thumbs" class="thumbs"></div>' + st.notes.map(function (n, i) { return '<div class="line">📝 ' + esc(n) + ' <button class="x" onclick="delNote(\'' + eid + '\',' + i + ')">✕</button></div>'; }).join('') +
+      '<button class="btn pri xl" onclick="go(\'enq\',\'' + eid + '\',4)">CONCLURE ›</button>';
+  } else {
+    var R = hypRank(e), top = R[0] && R[0].s > 0 ? R[0] : null;
+    if (top && !st.cause) st.cause = top.label;
+    h += hypBlock(e) + '<div class="sec">CONCLUSION</div><div class="stat">' + Object.keys(STATUS).map(function (s) { return '<button class="' + STATUS[s][2] + (st.status === s ? ' on' : '') + '" onclick="setF(\'' + eid + '\',\'status\',\'' + s + '\');render()">' + STATUS[s][0] + '<br>' + STATUS[s][1] + '</button>'; }).join('') + '</div>' +
+      '<label class="lab">CAUSE</label><textarea class="inp ta" onchange="setF(\'' + eid + '\',\'cause\',this.value)">' + esc(st.cause) + '</textarea>' +
+      '<label class="lab">ACTION</label><textarea class="inp ta" onchange="setF(\'' + eid + '\',\'action\',this.value)">' + esc(st.action) + '</textarea>' +
+      '<div class="grid2"><div><label class="lab">PILOTE</label><input class="inp" value="' + esc(st.owner) + '" onchange="setF(\'' + eid + '\',\'owner\',this.value)"></div><div><label class="lab">ÉCHÉANCE</label><input type="date" class="inp" value="' + esc(st.due) + '" onchange="setF(\'' + eid + '\',\'due\',this.value)"></div></div>' +
+      '<button class="btn pri xl" onclick="if(!enqState(\'' + eid + '\').status){toast(\'Choisissez un statut\');return;}save();toast(\'Enquête enregistrée\');go(\'site\')">✔ ENREGISTRER L’ENQUÊTE</button>';
+    save();
+  }
+  return h;
+}
+function hypBlock(e) {
+  var R = hypRank(e), mx = Math.max(1, R[0] ? R[0].s : 1), any = R.some(function (r) { return r.s !== 0; });
+  return '<div class="sec">HYPOTHÈSES' + (any ? ' — LA PLUS PROBABLE EN TÊTE' : '') + '</div>' + R.map(function (r, i) {
+    var w = r.s > 0 ? Math.round(r.s / mx * 100) : 0;
+    return '<div class="hyp' + (i === 0 && r.s > 0 ? ' top' : '') + (r.s < 0 ? ' out' : '') + '"><div class="hb" style="width:' + w + '%"></div><span>' + esc(r.label) + '</span>' + (r.s < 0 ? '<em>écartée</em>' : '') + '</div>';
+  }).join('');
+}
+function answer(id, i, a) { vibrate(); var st = enqState(id); if (a) st.answers[i] = a; else delete st.answers[i]; save(); render(); }
+function toggleCheck(id, i) { vibrate(); var st = enqState(id); st.checks[i] = !st.checks[i]; save(); render(); }
+function setMeas(id, i, v) { enqState(id).meas[i] = v; save(); }
+function setF(id, f, v) { enqState(id)[f] = v; save(); }
+function addNote(id) { var t = $('note').value.trim(); if (!t) return; enqState(id).notes.push(t); save(); render(); toast('Observation ajoutée'); }
+function delNote(id, i) { enqState(id).notes.splice(i, 1); save(); render(); }
+
+/* ---------- 3. Observation libre ---------- */
+var OBS = { type: 'Anomalie', zone: 'APP', photos: [] };
+function vObs() {
+  var h = topbar('Je vois quelque chose', "go('site')");
+  h += '<div class="sec">TYPE</div><div class="stat">' + FREE_TYPES.map(function (t) { return '<button class="' + (OBS.type === t[1] ? 'on g' : '') + '" onclick="OBS.type=\'' + t[1] + '\';render()">' + t[0] + '<br>' + t[1] + '</button>'; }).join('') + '</div>' +
+    '<label class="lab">ZONE</label><select class="sel" onchange="OBS.zone=this.value">' + ZONES.map(function (z) { return '<option value="' + z.id + '"' + (OBS.zone === z.id ? ' selected' : '') + '>' + z.ico + ' ' + esc(z.lab) + '</option>'; }).join('') + '</select>' +
+    '<div class="grid2"><button class="btn big2" onclick="takePhoto(null)">📷<br>PHOTO' + (OBS.photos.length ? ' (' + OBS.photos.length + ')' : '') + '</button><button class="btn big2" onclick="dictate(\'otext\')">🎤<br>DICTER</button></div>' +
+    '<textarea id="otext" class="inp ta" placeholder="Décrivez ce que vous voyez…"></textarea>' +
+    '<button class="btn pri xl" onclick="saveObs()">✔ ENREGISTRER</button>';
+  var v = visit(); if (v.obs.length) h += '<div class="sec">DÉJÀ NOTÉES</div>' + v.obs.map(function (o) { return '<div class="line">' + esc(o.type) + ' · ' + esc(zoneOf(o.zone).lab) + ' — ' + esc(o.text) + (o.photos.length ? ' 📷' + o.photos.length : '') + '</div>'; }).join('');
+  return h;
+}
+function saveObs() { var t = $('otext').value.trim(); if (!t && !OBS.photos.length) { toast('Ajoutez un texte ou une photo'); return; } visit().obs.push({ type: OBS.type, zone: OBS.zone, text: t, photos: OBS.photos, at: new Date().toISOString() }); OBS = { type: 'Anomalie', zone: OBS.zone, photos: [] }; save(); toast('Observation enregistrée'); go('site'); }
+
+/* ---------- 4. Photos (IndexedDB, compressées) & dictée ---------- */
+var DB = null;
+function db() { return DB ? Promise.resolve(DB) : new Promise(function (res, rej) { var r = indexedDB.open('atmovoc_trail', 1); r.onupgradeneeded = function () { r.result.createObjectStore('photos'); }; r.onsuccess = function () { DB = r.result; res(DB); }; r.onerror = function () { rej(r.error); }; }); }
+function putPhoto(id, data) { return db().then(function (d) { return new Promise(function (res) { var t = d.transaction('photos', 'readwrite'); t.objectStore('photos').put(data, id); t.oncomplete = res; }); }); }
+function getPhoto(id) { return db().then(function (d) { return new Promise(function (res) { var r = d.transaction('photos').objectStore('photos').get(id); r.onsuccess = function () { res(r.result); }; r.onerror = function () { res(null); }; }); }); }
+function takePhoto(enqId) {
+  var i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.setAttribute('capture', 'environment');
+  i.onchange = function () {
+    var f = i.files && i.files[0]; if (!f) return; var img = new Image(), u = URL.createObjectURL(f);
+    img.onload = function () {
+      var k = Math.min(1, 1280 / Math.max(img.width, img.height)), c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u);
+      var data = c.toDataURL('image/jpeg', 0.72), id = 'p' + Date.now();
+      putPhoto(id, data).then(function () { if (enqId) { enqState(enqId).photos.push(id); } else OBS.photos.push(id); save(); toast('Photo enregistrée'); render(); });
+    };
+    img.src = u;
+  };
+  i.click();
+}
+function loadThumbs() {
+  var e = findEnq(VIEW.enq), box = $('thumbs'); if (!e || !box) return; var st = enqState(e.id);
+  st.photos.forEach(function (id) { getPhoto(id).then(function (d) { if (d) { var im = document.createElement('img'); im.src = d; im.onclick = function () { showPhoto(d); }; box.appendChild(im); } }); });
+}
+function showPhoto(d) { var o = document.createElement('div'); o.className = 'zoom'; o.innerHTML = '<img src="' + d + '">'; o.onclick = function () { o.remove(); }; document.body.appendChild(o); }
+function dictate(target) {
+  var R = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!R) { toast('Touchez le micro 🎤 du clavier pour dicter'); $(target).focus(); return; }
+  try {
+    var r = new R(); r.lang = 'fr-FR'; r.interimResults = false; toast('🎤 Je vous écoute…');
+    r.onresult = function (ev) { var t = ev.results[0][0].transcript, el = $(target); el.value = (el.value ? el.value + ' ' : '') + t; };
+    r.onerror = function () { toast('Touchez le micro 🎤 du clavier pour dicter'); $(target).focus(); };
+    r.start();
+  } catch (e) { toast('Touchez le micro 🎤 du clavier pour dicter'); $(target).focus(); }
+}
+
+/* ---------- 5. Fin de visite : synthèse, export, partage ---------- */
+function report() {
+  var v = visit(), E = buildEnquetes(S.site);
+  return {
+    format: 'ATMOVOC_TRAIL_VISITE_V1', trail: TRAIL_VERSION, id: v.id, site: S.site, date: v.date, auteur: S.auteur, packGeneratedAt: S.pack.generatedAt, exportedAt: new Date().toISOString(),
+    enquetes: E.filter(function (e) { return v.enq[e.id] && (v.enq[e.id].status || Object.keys(v.enq[e.id].answers).length); }).map(function (e) {
+      var st = v.enq[e.id], pb = PB[e.pb], R = hypRank(e);
+      var constats = pb.checks.filter(function (c, i) { return st.checks[i]; }).map(function (c) { return 'Vérifié : ' + c; })
+        .concat(pb.meas.map(function (m, i) { return st.meas[i] ? m[0] + ' = ' + st.meas[i] + (m[1] ? ' ' + m[1] : '') : null; }).filter(Boolean)).concat(st.notes);
+      return { title: e.title, zone: zoneOf(e.zone).lab, playbook: e.pb, status: st.status || 'encours', cause: st.cause, action: st.action, owner: st.owner, due: st.due,
+        hypotheses: R.map(function (r) { return { label: r.label, score: r.s }; }), reponses: pb.q.map(function (q, i) { return st.answers[i] ? { q: q[0], r: st.answers[i] } : null; }).filter(Boolean),
+        constats: constats, photos: st.photos.slice(), sigs: e.anomalies.map(function (a) { return a.sig; }),
+        anomalies: e.anomalies.map(function (a) { return { site: a.site, month: a.month, cat: a.cat, sev: a.sev, title: a.title, detail: a.detail }; }) };
+    }),
+    observations: v.obs.map(function (o) { return { type: o.type, zone: zoneOf(o.zone).lab, text: o.text, nPhotos: o.photos.length, at: o.at }; })
+  };
+}
+function vEnd() {
+  var R = report(), c = { identifiee: 0, probable: 0, poursuivre: 0, faux: 0, encours: 0 }; R.enquetes.forEach(function (e) { c[e.status]++; });
+  var total = buildEnquetes(S.site).length;
+  var h = topbar('Fin de visite', "go('site')") + '<div class="card center"><div class="big">' + esc(S.site) + ' · ' + esc(R.date) + '</div><div class="huge">' + R.enquetes.length + ' / ' + total + '</div><div class="muted">enquêtes menées</div></div>' +
+    '<div class="sum"><div class="g">✅ ' + c.identifiee + ' cause(s) identifiée(s)</div><div class="o">🟠 ' + c.probable + ' cause(s) probable(s)</div><div class="r">🔴 ' + (c.poursuivre + c.encours) + ' à poursuivre</div><div class="n">⚪ ' + c.faux + ' faux signal(aux)</div><div>👁 ' + R.observations.length + ' observation(s) libre(s)</div></div>';
+  R.enquetes.forEach(function (e) { var s = STATUS[e.status]; h += '<div class="line"><b>' + esc(e.title) + '</b><br>' + (s ? s[0] + ' ' + s[1] : '… en cours') + (e.cause ? ' — ' + esc(e.cause) : '') + (e.action ? '<br>➜ ' + esc(e.action) + (e.owner ? ' (' + esc(e.owner) + ')' : '') : '') + '</div>'; });
+  h += '<button class="btn pri xl" onclick="exportReport()">💾 EXPORTER LE COMPTE RENDU</button><div class="muted center">Enregistrer dans OneDrive, puis ATMOVOC PC › VOC Intelligence › 📥 Visites TRAIL</div>' +
+    '<button class="btn" onclick="shareText()">✉️ PARTAGER LA SYNTHÈSE</button><button class="btn" onclick="sharePhotos()">📷 PARTAGER LES PHOTOS</button>' +
+    '<button class="btn danger" onclick="closeVisit()">🗑 CLÔTURER ET EFFACER CETTE VISITE</button>';
+  return h;
+}
+function exportReport() {
+  var R = report(), b = new Blob([JSON.stringify(R, null, 1)], { type: 'application/json' }), name = 'ATMOVOC_TRAIL_VISITE_' + S.site.replace(/[^A-Za-z0-9]+/g, '_') + '_' + R.date + '.json';
+  var f = null; try { f = new File([b], name, { type: 'application/json' }); } catch (e) {}
+  if (f && navigator.canShare && navigator.canShare({ files: [f] })) { navigator.share({ files: [f], title: name }).catch(function (e) { if (!e || e.name !== 'AbortError') dl(b, name); }); return; }
+  dl(b, name);
+}
+function dl(b, name) { var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000); toast('Fichier enregistré'); }
+function synthText() {
+  var R = report(), t = 'ATMOVOC TRAIL — visite ' + R.site + ' du ' + R.date + (R.auteur ? ' (' + R.auteur + ')' : '') + '\n\n';
+  R.enquetes.forEach(function (e, i) { var s = STATUS[e.status]; t += (i + 1) + '. ' + e.title + ' — ' + (s ? s[1] : 'en cours') + '\n' + (e.cause ? '   Cause : ' + e.cause + '\n' : '') + (e.action ? '   Action : ' + e.action + (e.owner ? ' — ' + e.owner : '') + (e.due ? ' (échéance ' + e.due + ')' : '') + '\n' : '') + (e.constats.length ? '   Constats : ' + e.constats.join(' ; ') + '\n' : '') + '\n'; });
+  if (R.observations.length) { t += 'Observations libres :\n'; R.observations.forEach(function (o) { t += ' - [' + o.type + ' · ' + o.zone + '] ' + o.text + '\n'; }); }
+  return t;
+}
+function shareText() { var t = synthText(); if (navigator.share) navigator.share({ title: 'Visite ATMOVOC TRAIL ' + S.site, text: t }).catch(function () {}); else location.href = 'mailto:?subject=' + encodeURIComponent('ATMOVOC TRAIL | ' + S.site + ' | visite du ' + visit().date) + '&body=' + encodeURIComponent(t); }
+function sharePhotos() {
+  var v = visit(), ids = []; Object.keys(v.enq).forEach(function (k) { ids = ids.concat(v.enq[k].photos); }); v.obs.forEach(function (o) { ids = ids.concat(o.photos); });
+  if (!ids.length) { toast('Aucune photo'); return; }
+  Promise.all(ids.map(getPhoto)).then(function (L) {
+    var files = L.filter(Boolean).map(function (d, i) { var bin = atob(d.split(',')[1]), u = new Uint8Array(bin.length); for (var j = 0; j < bin.length; j++) u[j] = bin.charCodeAt(j); return new File([u], 'TRAIL_' + S.site.replace(/\W+/g, '_') + '_' + (i + 1) + '.jpg', { type: 'image/jpeg' }); });
+    if (navigator.canShare && navigator.canShare({ files: files })) navigator.share({ files: files, title: 'Photos visite ' + S.site }).catch(function () {});
+    else files.forEach(function (f) { dl(f, f.name); });
+  });
+}
+function closeVisit() { if (!confirm('Avez-vous bien exporté le compte rendu ? La visite sera effacée du téléphone.')) return; delete S.visits[S.site]; save(); go('home'); }
+function vHist() {
+  var P = S.pack, h = topbar('Historique', "go('home')"), H = (P.history || []).filter(function (r) { return !S.site || r.site === S.site; });
+  if (!H.length) h += '<div class="card center muted">Aucune visite antérieure dans le pack' + (S.site ? ' pour ' + esc(S.site) : '') + '.</div>';
+  H.forEach(function (r) { h += '<div class="card"><b>' + esc(r.site) + ' · ' + esc(r.date) + '</b>' + (r.enquetes || []).map(function (e) { var s = STATUS[e.status]; return '<div class="line">' + (s ? s[0] : '…') + ' ' + esc(e.title) + (e.cause ? ' — ' + esc(e.cause) : '') + '</div>'; }).join('') + '</div>'; });
+  var res = (P.resolved || []).filter(function (a) { return !S.site || a.site === S.site; });
+  if (res.length) h += '<div class="sec">ÉCARTS DÉJÀ RÉSOLUS DANS ATMOVOC</div>' + res.map(function (a) { return '<div class="line">✓ ' + mlab(a.month) + ' · ' + esc(a.title) + (a.note ? ' — ' + esc(a.note) : '') + '</div>'; }).join('');
+  return h;
+}
+
+/* ---------- 6. Chargement du pack ---------- */
+function pickPack() {
+  var i = document.createElement('input'); i.type = 'file'; i.accept = '.json,application/json,text/plain';
+  i.onchange = function () {
+    var f = i.files && i.files[0]; if (!f) return; var rd = new FileReader();
+    rd.onload = function () {
+      var p; try { p = JSON.parse(rd.result); } catch (e) { toast('Fichier illisible'); return; }
+      if (!p || p.format !== 'ATMOVOC_TRAIL_PACK_V1') { toast('Ce fichier n’est pas un pack TRAIL'); return; }
+      S.pack = p; S.packName = f.name; if (S.site && !packHasSite(S.site)) S.site = ''; save(); toast('Pack chargé : ' + (p.anomalies || []).length + ' écarts'); go('home');
+    };
+    rd.readAsText(f);
+  };
+  i.click();
+}
+function packHasSite(s) { return (S.pack.sites || []).some(function (x) { return x.site === s; }) || (S.pack.anomalies || []).some(function (a) { return a.site === s; }); }
+function loadDemo() { S.pack = DEMO_PACK; S.packName = 'DÉMO — site fictif, chiffres inventés'; S.site = 'Site Démo'; save(); go('home'); }
+
+/* ---------- 7. Démarrage + mode hors connexion ---------- */
+window.addEventListener('load', function () {
+  render();
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(function () {});
+});
+
+</script></body></html>
